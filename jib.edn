@@ -1,0 +1,3 @@
+{:main atomist.web.handler
+ :target-image {:type :docker
+                :image-name "slimslenderslacks/dockerhub-eks-clj-web"}}
