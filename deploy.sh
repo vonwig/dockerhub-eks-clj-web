@@ -4,6 +4,8 @@
 # deploy to ECR
 # update k8s cluster
 ###########################
+BASEDIR=$(dirname "$0")
+export DOCKER_CONFIG="$BASEDIR/.docker"
 
 # increment version
 bb -e '(spit "version.txt" (format "v%s" (inc (Integer. (str (second (re-find #"v(\d+)" (str/trim (slurp "version.txt")))))))))'
