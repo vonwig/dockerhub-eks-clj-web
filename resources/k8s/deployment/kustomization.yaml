@@ -7,6 +7,6 @@ commonLabels:
   app.kubernetes.io/name: dockerhub-eks-clj-web
 images:
 - name: slimslenderslacks/dockerhub-eks-clj-web
-  newTag: v15
+  newTag: v18
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
