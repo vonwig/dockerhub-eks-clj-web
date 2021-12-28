@@ -76,3 +76,6 @@ spec:
           securityContext:
             runAsNonRoot: true
             readOnlyRootFilesystem: true
+      imagePullSecrets:
+        - name: regcred
+

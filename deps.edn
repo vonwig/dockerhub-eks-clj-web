@@ -4,7 +4,4 @@
         ring/ring-jetty-adapter {:mvn/version "1.9.4"}
         ring/ring-json {:mvn/version "0.5.1"}}
  :aliases {:jetty
-           {:main-opts ["-m" "atomist.web.handler"]}
-           :jib
-           {:deps {io.github.atomihq/jibbit {:local/root "/Users/slim/atmhq/jibbit"}}
-            :ns-default jibbit.core}}}
+           {:main-opts ["-m" "atomist.web.handler"]}}}

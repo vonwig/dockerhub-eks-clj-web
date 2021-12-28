@@ -2,3 +2,6 @@
 /.docker/
 /target/
 /.cpcache/
+/.creds.edn
+/resources/k8s/deployment/.dockerconfigjson
+/.nrepl-port
