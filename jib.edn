@@ -1,7 +1,6 @@
 {:main atomist.web.handler
  :target-image {:type :registry
                 :image-name "slimslenderslacks/dockerhub-eks-clj-web"
-                :tagger {:fn jibbit.tagger/tag
-                         :args {:local "version.txt"} }
+                :tagger {:fn jibbit.tagger/tag}
                 :authorizer {:fn jibbit.creds/load-edn
                              :args {:local ".creds.edn"}}}}
