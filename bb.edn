@@ -26,10 +26,11 @@
                                     (seq (fs/modified-since "target/app.jar" (fs/glob "." "jib.edn"))))
                               (clojure "-Tjib" "build" ":tag" (git/describe)))}
          -k8-edit {:depends [build-image]
-                   :task (shell {:dir "resources/k8s/controller"} (format "kustomize edit set image atomist/adm-ctrl:%s" (git/describe)))}
-         deploy-controller {:depends [-k8-edit]
-                            :task (-> (p/process "kustomize build ." {:dir "resources/k8s/controller"})
-                                      (p/process "kubectl apply -f -" {:dir "resources/k8s/controller" :out :string})
+                   :task (shell {:dir "resources/k8s/deployment"} (format "kustomize edit set image slimslenderslacks/dockerhub-eks-clj-web:%s" (git/describe)))}
+         context (shell "kubectl config use-context ecr-atmtest")
+         deploy-controller {:depends [-k8-edit context]
+                            :task (-> (p/process "kustomize build ." {:dir "resources/k8s/deployment"})
+                                      (p/process "kubectl apply -f -" {:dir "resources/k8s/deployment" :out :string})
                                       deref
                                       :out
                                       (println))}}}
