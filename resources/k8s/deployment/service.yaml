@@ -17,6 +17,7 @@ kind: Service
 metadata:
   name: dockerhub-eks-clj-web
 spec:
+  type: NodePort
   ports:
     - port: 8080
       protocol: TCP

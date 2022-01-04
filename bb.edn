@@ -10,27 +10,37 @@
                     [clojure.tools.cli :as cli]
                     [tasks :as git]]
          :init (do (def cli-opts (cli/parse-opts *command-line-args* [["-m" "--message MESSSAGE" ""]
-                                                                      [nil "--skip-clean-check" "run anyway"] ])))
+                                                                      [nil "--skip-clean-check" "run anyway"]
+                                                                      [nil "--context context" "kube context"]]))
+                   (def kube-config-context (-> cli-opts :options :context)))
          :enter (let [{:keys [name]} (current-task)] (status/line :head "TASK %s %s" name (string/join " " *command-line-args*)))
          :leave (let [{:keys [name]} (current-task)] (status/line :detail "\nTASK %s done." name))
 
-         commit (git/recommit-any-updates (-> cli-opts :options :message))
+         version (:task (println (git/describe)))
+
+         increment-version {:task (do (git/increment-version (fs/file "src/atomist/web/handler.clj")))}
+
+         commit {:depends [increment-version]
+                 :task (git/recommit-any-updates (-> cli-opts :options :message))}
 
          clean? {:task (if (and (not (-> cli-opts :options :skip-clean-check)) (not (git/clean?)))
                          (throw (ex-info "dirty working copy. stop" {})))}
          ;; requires the jib tool to be installed
-         build-image {:depends [clean?]
-                      :task (when (or 
-                                    (seq (fs/modified-since "target/app.jar" (fs/glob "src" "**.clj")))
-                                    (seq (fs/modified-since "target/app.jar" (fs/glob "." "deps.edn")))
-                                    (seq (fs/modified-since "target/app.jar" (fs/glob "." "jib.edn"))))
+         build-image {:depends [commit clean?]
+                      :task (when (or
+                                   (seq (fs/modified-since "target/app.jar" (fs/glob "src" "**.clj")))
+                                   (seq (fs/modified-since "target/app.jar" (fs/glob "." "deps.edn")))
+                                   (seq (fs/modified-since "target/app.jar" (fs/glob "." "jib.edn"))))
                               (clojure "-Tjib" "build" ":tag" (git/describe)))}
-         -k8-edit {:depends [build-image]
-                   :task (shell {:dir "resources/k8s/deployment"} (format "kustomize edit set image slimslenderslacks/dockerhub-eks-clj-web:%s" (git/describe)))}
-         context (shell "kubectl config use-context ecr-atmtest")
-         deploy-controller {:depends [-k8-edit context]
-                            :task (-> (p/process "kustomize build ." {:dir "resources/k8s/deployment"})
-                                      (p/process "kubectl apply -f -" {:dir "resources/k8s/deployment" :out :string})
-                                      deref
-                                      :out
-                                      (println))}}}
+         context (shell (format "kubectl config use-context %s" kube-config-context))
+         deploy {:depends [build-image context]
+                 :task (-> (p/process "kustomize build resources/k8s/deployment")
+                           (p/process "envsubst" {:extra-env {"GIT_DESCRIBE" (git/describe)}})
+                           (p/process "kubectl apply -f -" {:out :string :err :string})
+                           deref
+                           ((fn [{:keys [out err]}] (println out) (println err))))}
+         undeploy {:task (-> (p/process "kustomize build resources/k8s/deployment")
+                             (p/process "envsubst" {:extra-env {"GIT_DESCRIBE" (git/describe)}})
+                             (p/process "kubectl delete -f -" {:out :string :err :string})
+                             deref
+                             ((fn [{:keys [out err]}] (println out) (println err))))}}}
