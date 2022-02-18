@@ -20,6 +20,11 @@
 
          increment-version {:task (tasks/increment-version (fs/file "src/atomist/web/handler.clj"))}
 
+         next-version {:task (tasks/next-tag)}
+
+         tag {:depends [next-version]
+              :task (shell (format "git tag %s" next-version))}
+
          commit {:depends [increment-version]
                  :task (tasks/recommit-any-updates (-> cli-opts :options :message))}
 
