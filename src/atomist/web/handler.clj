@@ -11,7 +11,7 @@
 (defroutes app
   (GET "/health" _ (constantly {:status 200 :body "ok"}))
   (->
-   (GET "/" _ (constantly {:status 200 :body {:hey "dockerhub-eks-clj-web" :version 137}}))
+   (GET "/" _ (constantly {:status 200 :body {:hey "dockerhub-eks-clj-web" :version 139}}))
    (wrap-json-body {:keywords? true :bigdecimals? true})
    (wrap-json-response))
   (route/not-found "<h1>not found</h1>"))
