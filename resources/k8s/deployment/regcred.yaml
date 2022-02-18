@@ -1,0 +1,40 @@
+apiVersion: v1
+data:
+    .dockerconfigjson: ENC[AES256_GCM,data:xX/UFVtWSUL4zEGBJUZjtOgO5fqPV4DQEG2A5gcM7QhB6kiQtEblalIow8dm+1QdvXFJjCCPN2nDxUP80nLLK7DepqyeHNstYbJ8T1aAUhgF+BFL9kIYQAPa7eP/LmYLcBxnTLGzi7P0NIfKt+278NzMjlgrRkvaZossnFCNXiy/DgP0vcl+1rCl4wA2/wh4FR+z04hzfEHDIDmZRTM3IZbftAcvsH/NVtDR2WwP1V8REM3Kdr9ykSJPvWnrIOMc,iv:fcIumb2b9xRno+L2bWar+rIOzTDrdQcF5gHUU9JOOgY=,tag:ZlnIkNWPDQXS4X2IYPbtlg==,type:str]
+kind: Secret
+metadata:
+    creationTimestamp: null
+    name: regcred
+    namespace: production
+type: kubernetes.io/dockerconfigjson
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2022-02-18T06:13:25Z"
+    mac: ENC[AES256_GCM,data:gdNakXiEWL0UR9+lngrt3oALRfuVjElg87Gav0f7OcoDi39SjqmWjLZkenGhYuyo6mm/2lYEz7ae0NpISAl8l0483hNvMmYuoihOWZqKwhSlSHtVvbhS8/JwlgnWDJ9pEslG4wxRwlQ3XGYAkQ/o9B41RBARXpiPcLgh5eP03LI=,iv:d3i/A0re+4QDgBhgDeq6/Kx1opZUypqSrTAzOQH9hZM=,tag:rQf28YW6wGdN4l8exaZ4QA==,type:str]
+    pgp:
+        - created_at: "2022-02-18T06:13:22Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA6Z3dW5Vt76MAQ//WcWCgq4KdfIHj14ueI7DUnt4P26uXzov6fJCQ4Ot6UiX
+            wfFb73B0YNjjpe/j9ffx1kKBFf1OvCvVMQ2a0/SgjOlhAj0HYjSi1SfMvqoaasbb
+            r+oneTtPloOQ8Vfk1uCZoMjIhoIDLpVp5AMXvkKQsWtmADtHsbNTpxjnvAMzbFfy
+            3g+NEo3WadZWucaCEC+4VL3jeXpvrU3Nz07rP55F4dT86DjKdMs1hNHfgQTGCRg0
+            CWXwZSG2KtRD6MCNEWWfRYWrMMY21468vImibIJjXE/r8GCXcRuGna/dresAQlJO
+            QWTEU/ZlzXJYe87JqaxF/K/mus/s+5b2JmATZBKY4c2JP6+xHVovCc2deqwR/dUq
+            uqD0GIxh/Q94Fa6W5joKctsE9QEba3B2hUzT3nvwnrYbMmixlVTX1K8oLtpd/MNS
+            DuOoFoDJcmfoS8nwrQLKOA1j5/aS9WcPOBu442Z3dt8WIKWjs5W6JvzMzsiOh0I3
+            ylORj/2+X2IabNClRmKJHrNWTy8orewYwopmtedKuHrCjicJP0WldP8ukNjzrFxO
+            NuAinBHQHdat7UU+4rBwE2BY2ASU5P2nmEXKm1sG4kMOMrkbM36YQ1BT9DFu1B9M
+            ykCiSttboFEqyJrypXIVgyVHvt9m/UeDpbgHvDg8bwYBr7H+crvloKluGdizFAnS
+            XgHlgfm85qgeZCm15vuOsUXqr4OMkeT5AdskHIbkbkfrE/A0eRPU3NqMRLuolQK7
+            tWjxXcCunn4QsCDnkfRt2zzR8nrTn5zEeIo50TzDvG8PhWgVqtsaGn2rRXXgiQg=
+            =Qmoz
+            -----END PGP MESSAGE-----
+          fp: 5A29135C4A7AF5773F8B5B9D475294FBAB4677E7
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
