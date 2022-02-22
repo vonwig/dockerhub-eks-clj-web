@@ -37,7 +37,9 @@
          clean? {:task (if (and (not (-> cli-opts :options :skip-clean-check)) (not (tasks/clean?)))
                          (throw (ex-info "dirty working copy. stop" {})))}
 
-         push {:task (shell "git push origin main")}
+         push {:depends [version]
+               :task (shell (format "git push origin main %s" version))}
+
          ;; requires the jib tool to be installed
          build-image {:depends [commit clean? tag version push]
                       :task (do
