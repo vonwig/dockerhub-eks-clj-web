@@ -18,9 +18,15 @@
 
          version {:task (tasks/describe)}
 
+         print-version {:depends [version]
+                        :task (println version)}
+
          increment-version {:task (tasks/increment-version (fs/file "src/atomist/web/handler.clj"))}
 
          next-version {:task (tasks/next-tag)}
+
+         print-next-version {:depends [next-version]
+                             :task (println next-version)}
 
          tag {:depends [next-version]
               :task (shell (format "git tag %s" next-version))}
@@ -33,7 +39,7 @@
 
          push {:task (shell "git push origin main")}
          ;; requires the jib tool to be installed
-         build-image {:depends [commit clean? version push]
+         build-image {:depends [commit clean? tag version push]
                       :task (do
                               (when (or
                                      (seq (fs/modified-since "target/app.jar" (fs/glob "src" "**.clj")))
