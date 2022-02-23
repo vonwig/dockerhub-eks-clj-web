@@ -32,7 +32,7 @@
               :task (shell (format "git tag %s" next-version))}
 
          commit {:depends [increment-version]
-                 :task (tasks/recommit-any-updates (-> cli-opts :options :message))}
+                 :task (tasks/recommit-any-updates (or (-> cli-opts :options :message) (format "next version -> %s" increment-version)))}
 
          clean? {:task (if (and (not (-> cli-opts :options :skip-clean-check)) (not (tasks/clean?)))
                          (throw (ex-info "dirty working copy. stop" {})))}
