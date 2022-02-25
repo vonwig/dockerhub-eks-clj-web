@@ -4,6 +4,7 @@ resources:
 - service.yaml
 - namespace.yaml
 - regcred.yaml
+- ingress.yaml
 commonLabels:
   app.kubernetes.io/name: dockerhub-eks-clj-web
 images:
