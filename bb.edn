@@ -57,7 +57,7 @@
                   :task (shell (format "kubectl config use-context %s" kube-config-context))}
 
          ;; gcloud needs to be pointing at the personalsdm project
-         deploy {:depends [build-image context version]
+         deploy {:depends [context version]
                  :task (do
                          (-> (p/process "kustomize build resources/k8s/deployment")
                              (p/process "envsubst" {:extra-env {"GIT_DESCRIBE" version}})
