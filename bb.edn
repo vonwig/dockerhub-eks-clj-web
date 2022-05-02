@@ -48,7 +48,7 @@
                                      (seq (fs/modified-since "target/app.jar" (fs/glob "." "deps.edn")))
                                      (seq (fs/modified-since "target/app.jar" (fs/glob "." "jib.edn"))))
                                 (println "version is " version)
-                                (clojure "-T:jib" "build" ":tag" version)))}
+                                (clojure "-T:jib" "build" ":aot" "true" ":tag" version)))}
 
          kube-config-context {:task (if-let [c (-> cli-opts :options :context)]
                                             c
