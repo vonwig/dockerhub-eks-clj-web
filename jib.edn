@@ -1,4 +1,5 @@
 {:main atomist.web.handler
+ :aot true
  :target-image {:type :registry
                 :image-name "slimslenderslacks/dockerhub-eks-clj-web"
                 :tagger {:fn jibbit.tagger/tag}
